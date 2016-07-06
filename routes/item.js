@@ -20,4 +20,17 @@ router.post('/items', function(req, res) {
     });
 });
 
+
+router.delete('/items/:id', function(req, res) {
+    var id = req.params.id;
+    Item.del(id, function (err, item) {
+        console.log(id);
+        if (err) {
+            return res.status(400).json(err);
+        }
+        res.status(200).json(item);
+    })
+})
+
+
 module.exports = router;
