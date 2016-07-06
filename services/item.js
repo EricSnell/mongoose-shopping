@@ -26,6 +26,7 @@ exports.list = function(callback) {
     });
 };
 
+// Deletes item from the database
 exports.del = function(name, callback) {
     Item.findByIdAndRemove(name, function(err, item) {
         if (err) {
@@ -34,6 +35,15 @@ exports.del = function(name, callback) {
         }
         callback(null, item);
     });
+};
 
-
+// Updates item from the database
+exports.rename = function(id, update, callback) {
+    Item.findOneAndUpdate({ _id: id }, { name: update }, function(err, item) {
+        if (err) {
+            callback(err);
+            return;
+        }
+        callback(null, item);
+    })
 }

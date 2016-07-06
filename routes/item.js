@@ -2,6 +2,7 @@ var express = require('express');
 var Item = require('../services/item');
 var router = express.Router();
 
+
 router.get('/items', function(req, res) {
     Item.list(function(err, items) {
         if (err) {
@@ -10,6 +11,7 @@ router.get('/items', function(req, res) {
         res.json(items);
     });
 });
+
 
 router.post('/items', function(req, res) {
     Item.save(req.body.name, function(err, item) {
@@ -24,13 +26,25 @@ router.post('/items', function(req, res) {
 router.delete('/items/:id', function(req, res) {
     var id = req.params.id;
     Item.del(id, function (err, item) {
-        console.log(id);
         if (err) {
             return res.status(400).json(err);
         }
         res.status(200).json(item);
-    })
-})
+    });
+});
+
+
+router.put('/items/:id', function(req, res) {
+    var id = req.body.id;
+    var newName = req.body.name;
+    Item.rename(id, newName, function (err, item) {
+        console.log(id, newName);
+        if (err) {
+            return res.status(400).json(err);
+        }
+        res.status(201).json(item);
+    });
+});
 
 
 module.exports = router;
